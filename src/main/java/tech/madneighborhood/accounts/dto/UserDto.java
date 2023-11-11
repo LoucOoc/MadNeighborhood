@@ -1,4 +1,4 @@
-package com.example.springbootmicroservices.accounts.dto;
+package tech.madneighborhood.accounts.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
