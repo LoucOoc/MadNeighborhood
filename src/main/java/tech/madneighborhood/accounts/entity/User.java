@@ -30,9 +30,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Role> roles = new ArrayList<>();
-
     @OneToMany
     private List<Post> posts = new ArrayList<>();
 
