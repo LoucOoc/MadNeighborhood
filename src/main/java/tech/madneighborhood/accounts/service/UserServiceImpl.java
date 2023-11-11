@@ -1,12 +1,12 @@
 package tech.madneighborhood.accounts.service;
 
-import com.example.springbootmicroservices.accounts.dto.UserDto;
-import com.example.springbootmicroservices.accounts.entity.Role;
-import com.example.springbootmicroservices.accounts.entity.User;
-import com.example.springbootmicroservices.accounts.repository.RoleRepository;
-import com.example.springbootmicroservices.accounts.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import tech.madneighborhood.accounts.dto.UserDto;
+import tech.madneighborhood.accounts.entity.Role;
+import tech.madneighborhood.accounts.entity.User;
+import tech.madneighborhood.accounts.repository.RoleRepository;
+import tech.madneighborhood.accounts.repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;

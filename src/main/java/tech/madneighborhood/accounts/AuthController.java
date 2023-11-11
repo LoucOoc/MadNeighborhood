@@ -1,8 +1,5 @@
 package tech.madneighborhood.accounts;
 
-import com.example.springbootmicroservices.accounts.dto.UserDto;
-import com.example.springbootmicroservices.accounts.entity.User;
-import com.example.springbootmicroservices.accounts.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +7,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import tech.madneighborhood.accounts.dto.UserDto;
+import tech.madneighborhood.accounts.entity.User;
+import tech.madneighborhood.accounts.service.UserService;
 
 import java.util.List;
 
