@@ -35,8 +35,8 @@ public class ProjectController {
 
     @GetMapping({"/posts"})
     public List<Post> getPosts(@RequestParam(name = "community") String community, @RequestParam(name = "page") Integer page) {
-        Community community = communityRepository.findByName(community);
-
+        // Community community = communityRepository.findByName(community);
+        return null;
 
     }
 
