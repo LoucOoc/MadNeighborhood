@@ -6,6 +6,7 @@ import PostDetail from './PostDetail';
 import NewPost from './NewPost';
 
 function App() {
+  
   return (
     
     <BrowserRouter>

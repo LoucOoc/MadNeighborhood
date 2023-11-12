@@ -32,7 +32,7 @@ const Home = (props) => {
         },1000);
         if(temp==null){
             console.log("Please Login");
-            window.location.href = '/';
+           // window.location.href = '/';
         } else
         setUserId(temp);
       }, []);
@@ -49,7 +49,6 @@ const Home = (props) => {
        
         <div onScroll={scrollEvent}>
              <Navbar />
-            {lendingError && <div>{lendingError}</div>}
             {posts&&<PostList posts={posts} ></PostList>}
             {thisUser&&<Alert lendings={thisUser.Item_checked_out}/>}
            <button className="new">
