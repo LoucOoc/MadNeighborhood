@@ -11,6 +11,7 @@ import tech.madneighborhood.accounts.dto.UserInfo;
 import tech.madneighborhood.accounts.entity.User;
 import tech.madneighborhood.accounts.repository.UserRepository;
 import tech.madneighborhood.accounts.service.UserServiceImpl;
+import tech.madneighborhood.post.Comment;
 import tech.madneighborhood.post.Post;
 import tech.madneighborhood.post.PostRepository;
 
@@ -204,11 +205,24 @@ public class ProjectController {
 
     }
 
-    // implement this method: /get_post?id={post_id}
     @GetMapping({"/get_post"})
     public ResponseEntity<Post> getPost(@RequestParam Integer id) {
         Post post = postRepository.findById(id.longValue()).orElseThrow();
         return ResponseEntity.ok(post);
+    }
+
+
+    // implement this method: /get_comments?personal_token={}&post_id={}
+    @GetMapping({"/get_comments"})
+    public ResponseEntity<List<Comment>> getComments(@RequestParam String personal_token, @RequestParam Integer post_id) {
+
+        Long userId = UserAuthenticationManager.getUserId(personal_token);
+        if (userId == null) {
+            throw new RuntimeException("Invalid token");
+        }
+
+        Post post = postRepository.findById(post_id.longValue()).orElseThrow();
+        return ResponseEntity.ok(post.getComments());
     }
 
 

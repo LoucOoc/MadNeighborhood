@@ -35,6 +35,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         UserAuthenticationManager.addToken(token, userId);
         response.setHeader("personal_id", token);
         response.setHeader("user_id", userId.toString());
+
         /*
         Cookie personalIdCookie = new Cookie("personal_id", token);
         response.addCookie(personalIdCookie);
