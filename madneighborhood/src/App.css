@@ -1,0 +1,213 @@
+:root {
+  --day-color: black;
+  --next-month: #757575;
+  --dark: #262626;
+  --action: #a5e28d;
+}
+
+.user {
+  display: flex;  
+  gap: 20px;
+  align-items: center;
+}
+
+html {
+  width: min(150ch, 100% - 4rem) !important;
+  margin-inline: auto !important;
+
+}
+
+.ItemPage {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-img {
+  object-fit: contain;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+} 
+
+.purchase-screen {
+  display: flex;
+  visibility: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(.1);
+  background-color: white;
+  border: 1.5px solid black;
+  transition: all 0.4s ease-in-out;
+}
+
+.listing-container svg {
+  vertical-align: sub;
+  margin-right: 5px;
+}
+
+.action {
+  border: none;
+  background-color: var(--action);
+  border-radius: 6px;
+  width: min(150px, 45%);
+  height: 65px;
+  position: sticky;
+}
+
+.purchase-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.listing-info {
+  display: flex;
+  width: min(650px, 65%);
+  justify-content: space-between;
+  background-color: var(--dark);
+  color: #c6c6c6;
+  border-radius: 6px;
+  padding: 10px;
+  height: 45px;
+  align-items: center;
+}
+
+.listing-container {
+  display: flex;
+  justify-content: space-between;
+  width: min(900px, 90%);
+  gap: 0;
+  margin-top: 30px;
+  align-items: center;
+}
+
+nav {
+  box-sizing: border-box;
+  display: flex;
+  width: min(900px, 90%);
+  position: absolute;
+  top: 0;
+  padding-top: 20px;
+  font-size: 1.2rem;
+  padding-bottom: 20px;
+  height: 80px;
+  border-bottom: 1px solid #bfbfbf;
+  align-items: center;
+  justify-content: space-between;
+  scroll-padding-bottom: 100px;
+  overflow: hidden;
+}
+
+.pages {
+  display: flex;
+  gap: min(100px, 20%);
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.action:hover {
+  cursor: pointer; 
+
+}
+
+.sign-up {
+  border: none;
+  border-radius: 6px;
+  background-color: var(--action);
+  height: 40px;
+  width: min(80px, 10%);
+
+}
+
+.content {
+  margin-top: 100px;
+}
+
+.item-name {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.description-text {
+  width: min(900px, 90%);
+}
+
+.item-img {
+  object-fit: cover;
+  width: min(900px, 90%);
+  height: min(300px, 30%);
+  border-radius: 6px;
+}
+
+.confirm {
+  background-color: orange;
+}
+
+.react-calendar {
+  border: none !important;
+  border-radius: 6px !important;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  width: min(500px, 50%) !important;
+  height: min(400px, 40%) !important;
+  
+   /* width: 1000px;  */
+}
+
+.react-calendar__month-view__days__day {
+  color:  var(--day-color) !important;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: var(--next-month) !important;
+}
+
+abbr[title] {
+  text-decoration: none;
+ }
+
+.react-calendar__navigation {
+  background-color: cadetblue;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.comments {
+  position: relative;
+}
+
+.comment-box {
+  /* border: none; */
+  /* border-radius: 6px; */
+  resize: none; 
+  padding: 10px 0 10px 10px;
+  padding-right: 5rem;   
+  width: min(900px - 5rem, 90% - 5rem) !important;
+  font: inherit;
+  height: 4rem !important;
+}
+
+.left-margin {
+  margin-left: min(3rem, 10%);
+  margin-top: 0;
+}
+
+.circular {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1.5rem;
+  position: absolute;
+  left: calc(min(900px - 5rem, 90% - 5rem) + 1.5rem);
+  top: 4.6rem;
+}
+
+.inner-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4em;
+}
+
+
+
