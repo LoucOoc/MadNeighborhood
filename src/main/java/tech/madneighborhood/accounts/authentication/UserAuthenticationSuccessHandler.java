@@ -31,13 +31,17 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         System.out.println("Success Handler Called");
         String token = generateToken();
+        Long userId = ((User) authentication.getPrincipal()).getId();
+        UserAuthenticationManager.addToken(token, userId);
+        response.setHeader("personal_id", token);
+        response.setHeader("user_id", userId.toString());
+        /*
         Cookie personalIdCookie = new Cookie("personal_id", token);
         response.addCookie(personalIdCookie);
 
-        Long userId = ((User) authentication.getPrincipal()).getId();
-        UserAuthenticationManager.addToken(token, userId);
         Cookie userIdCookie = new Cookie("user_id", userId.toString());
         response.addCookie(userIdCookie);
+         */
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }
