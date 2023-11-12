@@ -6,6 +6,12 @@ build/
 !**/src/test/**/build/
 src/main/resources/application.properties
 
+
+### dependencies ###
+package.json
+node_modules/*
+package-lock.json
+
 ### STS ###
 .apt_generated
 .classpath
