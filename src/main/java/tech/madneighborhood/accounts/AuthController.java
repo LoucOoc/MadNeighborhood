@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import tech.madneighborhood.accounts.dto.UserInfo;
 import tech.madneighborhood.accounts.dto.UserLogin;
 import tech.madneighborhood.accounts.dto.UserSignup;
@@ -69,26 +71,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public void login(@Valid @ModelAttribute("user") UserLogin userLogin,
+    /* public void login(@Valid @ModelAttribute("user") UserLogin userLogin,
                          BindingResult result,
                          HttpServletRequest request,
                          HttpServletResponse response) {
 
-        System.out.println(userLogin.getEmail());
+
+     */
+    public ResponseEntity<String> login(@RequestParam("email") String email, @RequestParam("password") String password,
+                                HttpServletRequest request,
+                                HttpServletResponse response) {
+        System.out.println(email);
         System.out.println(userService.findAllUsers());
-        User existingUser = userService.findUserByEmail(userLogin.getEmail());
+        User existingUser = userService.findUserByEmail(email);
         System.out.println(existingUser);
-
-        if (existingUser == null) {
-            result.rejectValue("email", "Email doesn't exists",
-                    "There is not an account registered with the email");
-        }
-
-        if (result.hasErrors()) {
-            System.out.println("Error in login");
-            System.out.println(result.getAllErrors());
-            return;
-        }
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userLogin.getEmail(), userLogin.getPassword());
         Authentication authentication = authenticationManager.authenticate(token);
