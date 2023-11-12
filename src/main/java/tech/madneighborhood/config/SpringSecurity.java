@@ -62,7 +62,7 @@ public class SpringSecurity {
                                 .requestMatchers("/registerpage").permitAll()
                                 .requestMatchers("/posts").permitAll()
                                 .requestMatchers("/create_post").permitAll()
-                                .anyRequest().permitAll().
+                                .anyRequest().permitAll()
                 )
                 .formLogin((customizer)->
                         customizer
