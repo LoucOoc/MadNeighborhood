@@ -1,6 +1,7 @@
 package tech.madneighborhood.accounts.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import tech.madneighborhood.post.Post;
 
@@ -13,28 +14,36 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @ToString
-@Table(name="Users")
+@Table(name="users")
 public class User {
 
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotEmpty
     @Column(nullable = false)
     private String name;
 
+    @NotEmpty
     @Column(nullable = false, unique = true)
     private String email;
 
+    @NotEmpty
+    @Column(nullable = false)
+    private String phone;
+
+    @NotEmpty
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Post> posts = new ArrayList<>();
+    @Column(nullable = true)
+    private String posts = "";
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(nullable = true)
+    private String item_others_checked = "";
+
+    @Column(nullable = true)
+    private String item_checked_out = "";
 
 }

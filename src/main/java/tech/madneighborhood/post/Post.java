@@ -1,18 +1,20 @@
 package tech.madneighborhood.post;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import tech.madneighborhood.accounts.dto.UserInfo;
 import tech.madneighborhood.accounts.entity.User;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Getter
-@Table(name="Posts")
+@Setter
+@ToString
+@Table(name="posts")
 public class Post {
 
     @Id
@@ -20,17 +22,32 @@ public class Post {
     private Long id;
 
     @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
     private String content;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name="start_avail", nullable = false)
+    private LocalDate start_avail;
 
     @Column(nullable = false)
-    private LocalDate checkin;
+    private LocalDate end_avail;
 
     @Column(nullable = false)
-    private LocalDate checkout;
+    private Long user_id;
+
+    @Column(nullable = false)
+    private String user_name;
+
+    @Column(nullable = false)
+    private boolean checked_out;
+
+    @Column(nullable = false)
+    private Long user_checkout_id;
+
+    @OneToMany
+    @Column(nullable = false)
+    private List<Comment> comments;
 
     // Constructors, getters, setters, and other methods...
 }

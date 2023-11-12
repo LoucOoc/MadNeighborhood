@@ -2,11 +2,12 @@ package tech.madneighborhood.accounts.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import tech.madneighborhood.accounts.dto.UserDto;
+import tech.madneighborhood.accounts.dto.UserInfo;
+import tech.madneighborhood.accounts.dto.UserSignup;
 import tech.madneighborhood.accounts.entity.User;
 import tech.madneighborhood.accounts.repository.UserRepository;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,12 +23,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void saveUser(UserDto userDto) {
+    public void saveUser(UserSignup userDto) {
         User user = new User();
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
-
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setPhone(userDto.getPhone());
 
         userRepository.save(user);
     }
@@ -39,17 +40,36 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<UserDto> findAllUsers() {
-        return userRepository.findAll().stream().map(this::mapToUserDto).collect(Collectors.toList());
+    public List<UserInfo> findAllUsers() {
+        return userRepository.findAll().stream().map(this::mapToUserInfo).collect(Collectors.toList());
     }
 
-    private UserDto mapToUserDto(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setEmail(user.getEmail());
+    @Override
+    public Optional<User> findUserById(Long id) {
+        return userRepository.findById(id.intValue());
+    }
 
-        return userDto;
+    public UserInfo mapToUserInfo(User user) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(user.getId());
+        userInfo.setName(user.getName());
+        userInfo.setEmail(user.getEmail());
+        userInfo.setPhone(user.getPhone());
+
+
+        userInfo.setPosts(parseStringToList(user.getPosts()));
+        userInfo.setItem_checked_out(parseStringToList(user.getItem_checked_out()));
+        userInfo.setItem_others_checked(parseStringToList(user.getItem_others_checked()));
+
+        return userInfo;
+    }
+
+    private List<Long> parseStringToList(String string){
+        if(string.isBlank()){
+            return new ArrayList<>(1);
+        }else{
+            return Arrays.stream(string.split(",")).map(Long::parseLong).collect(Collectors.toList());
+        }
     }
 
 }

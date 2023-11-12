@@ -9,12 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserDto {
-
-    private Long id;
-
-    @NotEmpty
-    private String name;
+public class UserLogin {
 
     @NotEmpty(message = "Email is required")
     @Email

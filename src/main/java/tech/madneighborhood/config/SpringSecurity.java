@@ -8,11 +8,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import tech.madneighborhood.accounts.authentication.UserAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -20,6 +23,9 @@ public class SpringSecurity {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private UserAuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Value("${server.ssl.enabled:#{false}}")
     private boolean secure;
@@ -39,7 +45,31 @@ public class SpringSecurity {
             }
         })
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/test").permitAll()
+                        authorize.requestMatchers("/login").permitAll()
+                                .requestMatchers("/loginpage").permitAll()
+                                .requestMatchers("/register").permitAll()
+                                .requestMatchers("/registerpage").permitAll()
+                                .requestMatchers("/posts").permitAll()
+                                .requestMatchers("/create_post").permitAll()
+                                .anyRequest().permitAll()
+                )
+                .formLogin((customizer)->
+                        customizer
+                                .loginPage("/loginpage")
+                                .successHandler(authenticationSuccessHandler)
+                                .permitAll()
+                ).logout(logout ->
+                        logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .permitAll()
+                ).sessionManagement((customizer) ->
+                        customizer
+                                .sessionFixation().migrateSession()
+                                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                                .invalidSessionUrl("/loginpage")
+                                .maximumSessions(1)
+                                .maxSessionsPreventsLogin(false)
+
                 );
         return http.build();
     }
