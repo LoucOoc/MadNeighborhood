@@ -56,20 +56,15 @@ public class SpringSecurity {
             }
         })
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/login").permitAll()
-                                .requestMatchers("/loginpage").permitAll()
-                                .requestMatchers("/register").permitAll()
-                                .requestMatchers("/registerpage").permitAll()
-                                .requestMatchers("/posts").permitAll()
-                                .requestMatchers("/create_post").permitAll()
+                        authorize
                                 .anyRequest().permitAll()
                 )
-                .formLogin((customizer)->
+                /*.formLogin((customizer)->
                         customizer
                                 .loginPage("/loginpage")
                                 .successHandler(authenticationSuccessHandler)
                                 .permitAll()
-                ).logout(logout ->
+                )*/.logout(logout ->
                         logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
@@ -77,7 +72,6 @@ public class SpringSecurity {
                         customizer
                                 .sessionFixation().migrateSession()
                                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                                .invalidSessionUrl("/loginpage")
                                 .maximumSessions(1)
                                 .maxSessionsPreventsLogin(false)
 

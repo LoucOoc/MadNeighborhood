@@ -12,9 +12,6 @@ import tech.madneighborhood.accounts.entity.User;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
@@ -33,9 +30,6 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         String token = generateToken();
         Long userId = ((User) authentication.getPrincipal()).getId();
         UserAuthenticationManager.addToken(token, userId);
-       //  response.setHeader("personal_id", token);
-        // response.setHeader("user_id", userId.toString());
-
 
         Cookie personalIdCookie = new Cookie("personal_id", token);
         response.addCookie(personalIdCookie);
