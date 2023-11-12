@@ -65,11 +65,6 @@ public class AuthController {
         return;
     }
 
-    @GetMapping("/registerpage")
-    public String registerPage() {
-        return "register";
-    }
-
     @PostMapping("/login")
     public void login(@Valid @ModelAttribute("user") UserLogin userLogin,
                          BindingResult result,
