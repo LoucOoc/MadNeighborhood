@@ -1,16 +1,18 @@
 
 import './App.css';
-// import itemImg from 'madneighborhood.tech/item?id='
-// import itemDesc from 'madneighborhood.tech/item?id='
-// import BorrowScreen from "./borrow.js";
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { AiOutlineSend } from 'react-icons/ai';
 import React, { useState } from "react";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import {LiaCommentsSolid} from "react-icons/lia";
-// import sellerInfo from 'madneighborhood.tech/seller?id='
+// function ItemPage({userId, token, item, postId, sellerId, startDate, endDate}) {
 function ItemPage() {
+  let token = "123";
+  let startDate = "2023/11/12";
+  let endDate = "2023/11/15";
+  startDate = new Date(startDate.split("/")[0], parseInt(startDate.split("/")[1]) - 1, startDate.split("/")[2]);
+  endDate = new Date(endDate.split("/")[0], parseInt(endDate.split("/")[1]) - 1, endDate.split("/")[2]);
   const userId = "123";
   const sellerId = "23";
   const itemId = "3";
@@ -31,6 +33,25 @@ function ItemPage() {
     <button class="sign-up">Sign Up</button>
 </nav>);
 
+// const comments = fetch(`madneighborhood/get_comments?personal_token=${token}&post_id=${postId}
+// `, {
+//   method: "GET",
+//   headers: {"Content-Type" : "application/json"},
+//   body: {
+//     token: token,
+//     postId: postId,
+//   } 
+// }).then((res) => {
+//   if (res.status === 200) {
+//     return comments;
+//   } else {
+//     alert("get comments failed");
+//   }
+// }).then(data => {
+
+// }).catch(e => {
+//   alert("get comments failed");
+// });
   // const Comment = ({comments}) => {
   //   return (
   //     <>
@@ -47,29 +68,40 @@ function ItemPage() {
   //   );
   // };
 
-  // const comments = json.parse(fetch(`http://madneighborhood.tech:443/get_comments?user_id=${userId}&post_id=${itemId}`, {
-  //   method: "GET"
-  // }));
 const visibility = {visibility : vis[0], transform: vis[1], transition: "all 0.4s ease-in-out"};
+const currDate = new Date();
+let end = [];
 const onChange = dates => {
-    console.log(dates);
-    // fetch("domain_name/update_item_usage?community={name}&item={itemId}&start={}&end={}", )
+    end = dates; 
 };
+
 const BorrowScreen =     
 (
     <div class="purchase-screen" style={visibility}>
         <h1>Almost there!</h1>
         <p>Review the information and click confirm when ready.</p>
-        <Calendar selectRange={true} onChange={onChange}></Calendar>
-        <button class="confirm" onClick={() => {
-            // fetch("madneighborhood.tech/", {
-            //     method: "POST",  
-            //     body: {
-            //         buyer: userId,
-            //         seller: sellerId,
-            //         item: itemId
-            //     }
-            // });
+        <Calendar selectRange={true} onChange={onChange} defaultValue={startDate} minDate={startDate} maxDate={endDate}></Calendar>
+        <button class="action thin" onClick={() => {
+          // fetch(`madneighborhood/create_checkout?personal_token=${token}&post_id=${postId}&end=${end[0]}
+          // `, {
+          //   method: "POST",
+          //   headers: {"Content-Type" : "application/json"},
+          //   body: {
+          //     token: token,
+          //     postId: postId,
+          //     end: {year: end[1].getYear(), month: end[1].getMonth(), day: end[1].getDay()}
+          //   } 
+          // }).then((res) => {
+          //   if (res.status === 200) {
+          //     return;
+          //   } else {
+          //     alert("Checkout failed");
+          //   }
+          // }).then(data => {
+
+          // }).catch(e => {
+          //   alert("Checkout");
+          // });
             setVis((vis[0] === 'hidden') ? ["visible", "translate(-50%, -50%) scale(1)"] : ["hidden", "translate(-50%, -50%) scale(0.1)"]);
         }}>Confirm</button>
         </div>
@@ -105,15 +137,6 @@ const BorrowScreen =
                   //get popup
                   // console.log(BorrowScreen.style.display);
                   setVis((vis[0] === 'hidden') ? ["visible", "translate(-50%, -50%) scale(1)"] : ["hidden", "translate(-50%, -50%) scale(0.1)"]);
-
-                  // fetch("madneighborhood.tech/", {
-                  //   method: "POST",
-                  //   body: {
-                  //     buyer: buyerID,
-                  //     seller: sellerId,
-                  //     item: itemId
-                  //   }
-                  // });
                 }}>Borrow Item</button> 
             
           </div>
@@ -149,5 +172,5 @@ const BorrowScreen =
     </div>
   );
 }
-
+//TODO set max/min dates for calendar, style popup
 export default ItemPage;
