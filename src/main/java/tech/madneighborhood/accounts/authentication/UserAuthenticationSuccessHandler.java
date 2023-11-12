@@ -36,13 +36,13 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         response.setHeader("personal_id", token);
         response.setHeader("user_id", userId.toString());
 
-        /*
+
         Cookie personalIdCookie = new Cookie("personal_id", token);
         response.addCookie(personalIdCookie);
 
         Cookie userIdCookie = new Cookie("user_id", userId.toString());
         response.addCookie(userIdCookie);
-         */
+
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }
