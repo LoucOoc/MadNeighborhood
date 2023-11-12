@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @ToString
-@Table(name="users")
+@Table(name="Users")
 public class User {
 
     @Getter
@@ -30,10 +30,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Role> roles = new ArrayList<>();
-
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
     public void setId(Long id) {
