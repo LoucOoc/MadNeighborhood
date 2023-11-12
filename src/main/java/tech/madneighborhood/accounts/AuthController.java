@@ -86,12 +86,16 @@ public class AuthController {
         User existingUser = userService.findUserByEmail(email);
         System.out.println(existingUser);
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userLogin.getEmail(), userLogin.getPassword());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, password);
         Authentication authentication = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         try {
             successHandler.onAuthenticationSuccess(request, response, authentication);
+            ResponseEntity<String> entity = ResponseEntity.ok().build();
+
+            entity.getHeaders().add("Test1", "Test2");
+            return entity;
         } catch (IOException | ServletException e) {
             throw new RuntimeException(e);
         }
