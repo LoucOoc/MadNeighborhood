@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/MadNeighborhood/static/css/main.16211714.css",
+    "main.js": "/MadNeighborhood/static/js/main.09c38518.js",
+    "static/js/787.46d2ba93.chunk.js": "/MadNeighborhood/static/js/787.46d2ba93.chunk.js",
+    "index.html": "/MadNeighborhood/index.html",
+    "main.16211714.css.map": "/MadNeighborhood/static/css/main.16211714.css.map",
+    "main.09c38518.js.map": "/MadNeighborhood/static/js/main.09c38518.js.map",
+    "787.46d2ba93.chunk.js.map": "/MadNeighborhood/static/js/787.46d2ba93.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.16211714.css",
+    "static/js/main.09c38518.js"
+  ]
+}
