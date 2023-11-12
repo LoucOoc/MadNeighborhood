@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 const Login = () => {
    
-   
 //200 successful
     const [password,setPassword] = useState('');
     const [email,setEmail] = useState('');
@@ -53,8 +52,8 @@ const Login = () => {
             fetch(`http://madneighborhood.tech:443/login?email=${data.email}&password=${data.password}`, {
                 method: "POST",
             }).then( (res) => {
-                if(res.status === 200) {
-                    setRedirection(true);
+                if(res.ok) {
+                    window.location.href = '/home';
                     console.log("set");
                     return res.json();
                 } else {
@@ -70,7 +69,7 @@ const Login = () => {
             
     }
     
-
+/*
     useEffect ( () => {
         if(redirection){
             console.log("Redirecting...");
@@ -78,7 +77,7 @@ const Login = () => {
             window.location.href = '/home';
         }
     },[redirection])
-
+*/
 
     return (
     
