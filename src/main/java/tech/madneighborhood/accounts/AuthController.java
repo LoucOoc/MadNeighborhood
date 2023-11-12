@@ -71,16 +71,47 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    /* public void login(@Valid @ModelAttribute("user") UserLogin userLogin,
+    public void login(@Valid @ModelAttribute("user") UserLogin userLogin,
                          BindingResult result,
                          HttpServletRequest request,
                          HttpServletResponse response) {
 
+        System.out.println(userLogin.getEmail());
+        System.out.println(userService.findAllUsers());
+        User existingUser = userService.findUserByEmail(userLogin.getEmail());
+        System.out.println(existingUser);
 
-     */
+        if (existingUser == null) {
+            result.rejectValue("email", "Email doesn't exists",
+                    "There is not an account registered with the email");
+        }
+
+        if (result.hasErrors()) {
+            System.out.println("Error in login");
+            System.out.println(result.getAllErrors());
+            return;
+        }
+
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userLogin.getEmail(), userLogin.getPassword());
+        Authentication authentication = authenticationManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        try {
+            successHandler.onAuthenticationSuccess(request, response, authentication);
+        } catch (IOException | ServletException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /*
+        @PostMapping("/login")
+    public void login(@Valid @ModelAttribute("user") UserLogin userLogin,
+                         BindingResult result,
+                         HttpServletRequest request,
+                         HttpServletResponse response) {
     public ResponseEntity<String> login(@RequestParam("email") String email, @RequestParam("password") String password,
-                                HttpServletRequest request,
-                                HttpServletResponse response) {
+                                        HttpServletRequest request,
+                                        HttpServletResponse response) {
         System.out.println(email);
         System.out.println(userService.findAllUsers());
         User existingUser = userService.findUserByEmail(email);
@@ -100,6 +131,7 @@ public class AuthController {
             throw new RuntimeException(e);
         }
     }
+     */
 
     @GetMapping("/loginpage")
     public String loginPage() {
