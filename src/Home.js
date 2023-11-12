@@ -32,7 +32,7 @@ const Home = (props) => {
         },1000);
         if(temp==null){
             console.log("Please Login");
-            window.location.href = '/';
+           // window.location.href = '/';
         } else
         setUserId(temp);
       }, []);
