@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import tech.madneighborhood.accounts.authentication.UserAuthenticationSuccessHandler;
 
 @Configuration
@@ -35,6 +37,15 @@ public class SpringSecurity {
     }
 
     @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/*").allowedOrigins("*");
+            }
+        };
+    }
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .requiresChannel(channel -> {
@@ -51,7 +62,7 @@ public class SpringSecurity {
                                 .requestMatchers("/registerpage").permitAll()
                                 .requestMatchers("/posts").permitAll()
                                 .requestMatchers("/create_post").permitAll()
-                                .anyRequest().permitAll()
+                                .anyRequest().permitAll().
                 )
                 .formLogin((customizer)->
                         customizer
