@@ -21,7 +21,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
     public static String generateToken() {
         byte[] randomBytes = new byte[TOKEN_LENGTH];
         new SecureRandom().nextBytes(randomBytes);
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+        return "example_token"; //Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
     }
 
     @Override

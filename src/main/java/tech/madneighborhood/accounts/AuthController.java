@@ -66,7 +66,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public void login(@Valid @ModelAttribute("user") UserLogin userLogin,
+    public ResponseEntity<String> login(@Valid @ModelAttribute("user") UserLogin userLogin,
                          BindingResult result,
                          HttpServletRequest request,
                          HttpServletResponse response) {
@@ -84,7 +84,7 @@ public class AuthController {
         if (result.hasErrors()) {
             System.out.println("Error in login");
             System.out.println(result.getAllErrors());
-            return;
+            return ResponseEntity.badRequest().build();
         }
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userLogin.getEmail(), userLogin.getPassword());
@@ -93,6 +93,7 @@ public class AuthController {
 
         try {
             successHandler.onAuthenticationSuccess(request, response, authentication);
+            return ResponseEntity.ok().build();
         } catch (IOException | ServletException e) {
             throw new RuntimeException(e);
         }
