@@ -1,5 +1,5 @@
 import './App.css';
-import './TopBar.js';
+import '../../src/TopBar.js';
 function ChatPage({userId, token}) {
-    
+
 }

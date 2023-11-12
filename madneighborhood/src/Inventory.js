@@ -1,5 +1,5 @@
 import './App.css';
-import './TopBar.js';
+import '../../src/TopBar.js';
 function InventoryPage({userId}) {
     const data = fetch(`/get_user?id=${userId}`, {
         method: "GET",

@@ -1,4 +1,6 @@
+import TopBar from './TopBar.js';
 import './App.css';
+import { Routes, Route, useParams } from 'react-router-dom';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { AiOutlineSend } from 'react-icons/ai';
 import React, { useState } from "react";
@@ -6,15 +8,11 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import {LiaCommentsSolid} from "react-icons/lia";
 // function ItemPage({userId, token, item, postId, sellerId, startDate, endDate}) {
-function ItemPage() {
-  let token = "123";
-  let startDate = "2023/11/12";
-  let endDate = "2023/11/15";
+function ItemPage({userId, token}) {
+  const post_id = useParams()["id"];
+  const [commentList, setComments] = useState([]);
   startDate = new Date(startDate.split("/")[0], parseInt(startDate.split("/")[1]) - 1, startDate.split("/")[2]);
   endDate = new Date(endDate.split("/")[0], parseInt(endDate.split("/")[1]) - 1, endDate.split("/")[2]);
-  const userId = "123";
-  const sellerId = "23";
-  const itemId = "3";
   const itemName = "lawnmower";
   const sellerInfo = "john smith";
   const itemDesc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
@@ -22,50 +20,58 @@ function ItemPage() {
   const sellerImg = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F07%2F33%2Fba%2F0733ba760b29378474dea0fdbcb97107.png&f=1&nofb=1&ipt=ec502a3eaa28d90bab7a6bfbb92e1cbc080e78199a2a9c2dafe85e91706a7951&ipo=images";
   const itemImg = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcolbertondemand.com%2Fwp-content%2Fuploads%2F2021%2F05%2Flawn-mower-gardening-m...ut-grass-1593898-1.jpg&f=1&nofb=1&ipt=43181f7bc3ce6cd1884165ca65dd41ee49aeffb80bb75a1fbe1df5c417f3d3c0&ipo=images"; 
   const [vis, setVis] = useState(["hidden", "translate(-50%, -50%) scale(0.1)"]);
-  const TopBar = (<nav>
-    <div class="pages">
-      <img src={logo} alt="logo" class="logo"></img>
-      <div class="home">Hub</div>
-      <div class="chat">Chat</div>
-      <div class="inventory">Your Items</div>
-    </div>
-    <button class="sign-up">Sign Up</button>
-</nav>);
-
-// const comments = fetch(`madneighborhood/get_comments?personal_token=${token}&post_id=${postId}
-// `, {
-//   method: "GET",
-//   headers: {"Content-Type" : "application/json"},
-//   body: {
-//     token: token,
-//     postId: postId,
-//   } 
-// }).then((res) => {
-//   if (res.status === 200) {
-//     return comments;
-//   } else {
-//     alert("get comments failed");
-//   }
-// }).then(data => {
-
-// }).catch(e => {
-//   alert("get comments failed");
-// });
-  // const Comment = ({comments}) => {
-  //   return (
-  //     <>
-  //     {comments.map((comment) => (
-  //       <div className="Comment">
-  //     <div className="user">
-  //       <img className="user-img" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngfind.com%2Fpngs%2Fm%2F676-6764065_default-profile-picture-transparent-hd-png-download.png&f=1&nofb=1&ipt=c10f8e3d8d0a8ec3c044b7f96714d137e4e9fff5924d8b03eb242da2e8947391&ipo=images"></img>
-  //       <p className="user-desc">comments["userName"]</p>
-  //     </div>
-  //     <p>comments["content"]</p>
-  //   </div>  
-  //   ))}
-  //   </>
-  //   );
-  // };
+  const posts = fetch(`http://madneighborhood.tech:443/posts?page=${0}`, {
+    method: "GET",
+  }).then((res) => {
+      if (res.status === 200)
+        return res.json();
+  }).then((data) => {
+      console.log(data);
+      // page_data = data;
+  }).catch((e) => {
+    alert("getpost failed");
+  });
+  let currPost;
+  for (let post of posts) {
+    if (post.id === post_id)
+      currPost = post;
+  }
+  //a@gmail.com
+//302 303
+//   let page_data = undefined;
+const comments = fetch(`https://madneighborhood.tech/get_comments?personal_token=${token}&post_id=${postId}
+`, {
+  method: "GET"
+  // headers: {"Content-Type" : "application/json"},
+  // body: JSON.stringify({
+  //   token: token,
+  //   postId: postId,
+  // } )
+}).then((res) => {
+  if (res.ok) {
+    console.log(res);
+  } else {
+    alert("get comments failed non 200");
+  }
+}).then(data => {
+  // console.log(data);
+    setComments(data);
+}).catch(e => {
+  alert("get comments failed");
+});
+  const Comments = ({commentList}) => (
+      <>
+      {commentList.map((comment) => (
+        <div className="Comment">
+      <div className="user">
+        <img className="user-img" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngfind.com%2Fpngs%2Fm%2F676-6764065_default-profile-picture-transparent-hd-png-download.png&f=1&nofb=1&ipt=c10f8e3d8d0a8ec3c044b7f96714d137e4e9fff5924d8b03eb242da2e8947391&ipo=images"></img>
+        <p className="user-desc">{comment["userName"]}</p>
+      </div>
+      <p>{comment["content"]}</p>
+    </div>  
+    ))}
+    </>
+    );
 
 const visibility = {visibility : vis[0], transform: vis[1], transition: "all 0.4s ease-in-out"};
 const currDate = new Date();
@@ -81,26 +87,26 @@ const BorrowScreen =
         <p>Review the information and click confirm when ready.</p>
         <Calendar selectRange={true} onChange={onChange} defaultValue={startDate} minDate={startDate} maxDate={endDate}></Calendar>
         <button class="action thin" onClick={() => {
-          // fetch(`madneighborhood/create_checkout?personal_token=${token}&post_id=${postId}&end=${end[0]}
-          // `, {
-          //   method: "POST",
-          //   headers: {"Content-Type" : "application/json"},
-          //   body: {
-          //     token: token,
-          //     postId: postId,
-          //     end: {year: end[1].getYear(), month: end[1].getMonth(), day: end[1].getDay()}
-          //   } 
-          // }).then((res) => {
-          //   if (res.status === 200) {
-          //     return;
-          //   } else {
-          //     alert("Checkout failed");
-          //   }
-          // }).then(data => {
+          fetch(`madneighborhood/create_checkout?personal_token=${token}&post_id=${postId}&end=${end[0]}
+          `, {
+            method: "POST",
+            headers: {"Content-Type" : "application/json"},
+            body: {
+              token: token,
+              postId: postId,
+              end: {year: end[1].getYear(), month: end[1].getMonth(), day: end[1].getDay()}
+            } 
+          }).then((res) => {
+            if (res.status === 200) {
+              return;
+            } else {
+              alert("Checkout failed");
+            }
+          }).then(data => {
 
-          // }).catch(e => {
-          //   alert("Checkout");
-          // });
+          }).catch(e => {
+            alert("Checkout");
+          });
             setVis((vis[0] === 'hidden') ? ["visible", "translate(-50%, -50%) scale(1)"] : ["hidden", "translate(-50%, -50%) scale(0.1)"]);
         }}>Confirm</button>
         </div>
@@ -148,7 +154,7 @@ const BorrowScreen =
                 <textarea class="comment-box"></textarea>
                 <button class="circular action inner-icon"><AiOutlineSend/></button>
                 <div class="comment-section">
-                  {/* {Comments} */}
+                  {Comments}
                   <div class="comment">
                    <div class="user">
                      <img class="user-img" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngfind.com%2Fpngs%2Fm%2F676-6764065_default-profile-picture-transparent-hd-png-download.png&f=1&nofb=1&ipt=c10f8e3d8d0a8ec3c044b7f96714d137e4e9fff5924d8b03eb242da2e8947391&ipo=images"></img>
