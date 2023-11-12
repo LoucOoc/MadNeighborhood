@@ -93,6 +93,7 @@ public class AuthController {
 
         try {
             successHandler.onAuthenticationSuccess(request, response, authentication);
+            response.sendRedirect("http://madneighborhood.tech/home");
             return ResponseEntity.ok().build();
         } catch (IOException | ServletException e) {
             throw new RuntimeException(e);

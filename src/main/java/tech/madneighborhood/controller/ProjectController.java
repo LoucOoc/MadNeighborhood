@@ -12,6 +12,7 @@ import tech.madneighborhood.accounts.entity.User;
 import tech.madneighborhood.accounts.repository.UserRepository;
 import tech.madneighborhood.accounts.service.UserServiceImpl;
 import tech.madneighborhood.post.Comment;
+import tech.madneighborhood.post.CommentRepository;
 import tech.madneighborhood.post.Post;
 import tech.madneighborhood.post.PostRepository;
 
@@ -31,9 +32,12 @@ public class ProjectController {
     @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
     @GetMapping("/test")
     public String test() {
-        return "helloworld";
+        return "index";
     }
 
 
@@ -225,6 +229,28 @@ public class ProjectController {
         return ResponseEntity.ok(post.getComments());
     }
 
+    @PostMapping("/create_comment")
+    public ResponseEntity<String> createComment(@RequestParam String personal_token, @RequestParam Long post_id, @RequestParam String content) {
+
+        Long userId = UserAuthenticationManager.getUserId(personal_token);
+        if (userId == null) {
+            throw new RuntimeException("Invalid token");
+        }
+
+        User user = userRepository.findById(userId.intValue()).orElseThrow();
+        Post post = postRepository.findById(post_id.longValue()).orElseThrow();
+
+        Comment comment = new Comment();
+        comment.setComment(content);
+        comment.setUser_id(user.getId());
+        comment.setUser_name(user.getName());
+        commentRepository.save(comment);
+
+        post.getComments().add(comment);
+        postRepository.save(post);
+
+        return ResponseEntity.ok().build();
+    }
 
     private String convertListToString(List<Long> list) {
         StringBuilder sb = new StringBuilder();
